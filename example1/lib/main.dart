@@ -34,6 +34,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+// SingleTickerProviderStateMixin
+
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
@@ -63,32 +65,35 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    print("app rebuild");
     return Scaffold(
       body: Center(
         child: AnimatedBuilder(
           animation: _controller,
-          builder: (context, child) => Transform(
-            alignment: Alignment.center,
-            transform: Matrix4.identity()
-              ..rotateY(_animation.value)
-              ..rotateZ(_animation.value),
-            child: Container(
-              height: 100,
-              width: 100,
-              decoration: BoxDecoration(
-                color: _controller.value > 0.5 ? Colors.amber : Colors.blue,
-                borderRadius: BorderRadius.circular(15.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
+          builder: (context, child) {
+            return Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.identity()
+                ..rotateY(_animation.value)
+                ..rotateZ(_animation.value),
+              child: Container(
+                height: 100,
+                width: 100,
+                decoration: BoxDecoration(
+                  color: _controller.value > 0.5 ? Colors.amber : Colors.blue,
+                  borderRadius: BorderRadius.circular(15.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ),
+            );
+          },
         ),
       ),
     );
