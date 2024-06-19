@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -35,7 +33,8 @@ class HomePage extends StatefulWidget {
 }
 
 // SingleTickerProviderStateMixin
-
+// provide a single ticker for one animation controller
+// which is consider with the vertical sync
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
@@ -65,7 +64,6 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    print("app rebuild");
     return Scaffold(
       body: Center(
         child: AnimatedBuilder(
