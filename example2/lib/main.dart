@@ -101,6 +101,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late AnimationController _flipController;
   late Animation<double> _flipAnimation;
 
+  late AnimationController _cubeResizeController;
+  late Animation<double> _cubeAnimation;
+
   @override
   void initState() {
     _counterClockWiseRotationController = AnimationController(
@@ -177,6 +180,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       },
     );
 
+    _cubeResizeController = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        seconds: 3,
+      ),
+    );
+
+    _cubeAnimation = Tween<double>(
+      begin: 10,
+      end: 100,
+    ).animate(_cubeResizeController);
+
+    _cubeResizeController.repeat(reverse: true);
+
     super.initState();
   }
 
@@ -200,56 +217,74 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
-        child: AnimatedBuilder(
-            animation: _counterClockWiseRotationAnimation,
-            builder: (context, child) => Transform(
-                  alignment: Alignment.center,
-                  transform: Matrix4.identity()
-                    ..rotateZ(_counterClockWiseRotationAnimation.value),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AnimatedBuilder(
-                        animation: _flipAnimation,
-                        builder: (context, child) => Transform(
-                          alignment: Alignment.centerRight,
-                          transform: Matrix4.identity()
-                            ..rotateY(_flipAnimation.value),
-                          child: ClipPath(
-                            clipper:
-                                const HalfCircleClipper(side: CircleSide.left),
-                            child: Container(
-                              width: 100,
-                              height: 100,
-                              decoration: const BoxDecoration(
-                                color: Colors.amber,
+        child: Column(
+          children: [
+            AnimatedBuilder(
+                animation: _counterClockWiseRotationAnimation,
+                builder: (context, child) => Transform(
+                      alignment: Alignment.center,
+                      transform: Matrix4.identity()
+                        ..rotateZ(_counterClockWiseRotationAnimation.value),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AnimatedBuilder(
+                            animation: _flipAnimation,
+                            builder: (context, child) => Transform(
+                              alignment: Alignment.centerRight,
+                              transform: Matrix4.identity()
+                                ..rotateY(_flipAnimation.value),
+                              child: ClipPath(
+                                clipper: const HalfCircleClipper(
+                                    side: CircleSide.left),
+                                child: Container(
+                                  width: 100,
+                                  height: 100,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.amber,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      AnimatedBuilder(
-                        animation: _flipController,
-                        builder: (context, child) => Transform(
-                          alignment: Alignment.centerLeft,
-                          transform: Matrix4.identity()
-                            ..rotateY(_flipAnimation.value),
-                          child: ClipPath(
-                            clipper:
-                                const HalfCircleClipper(side: CircleSide.right),
-                            child: Container(
-                              width: 100,
-                              height: 100,
-                              decoration: const BoxDecoration(
-                                color: Colors.deepPurple,
+                          AnimatedBuilder(
+                            animation: _flipController,
+                            builder: (context, child) => Transform(
+                              alignment: Alignment.centerLeft,
+                              transform: Matrix4.identity()
+                                ..rotateY(_flipAnimation.value),
+                              child: ClipPath(
+                                clipper: const HalfCircleClipper(
+                                    side: CircleSide.right),
+                                child: Container(
+                                  width: 100,
+                                  height: 100,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.deepPurple,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    )),
+            const SizedBox(height: 32.0),
+            AnimatedBuilder(
+              animation: _cubeResizeController,
+              builder: (context, child) => Container(
+                width: _cubeAnimation.value,
+                height: _cubeAnimation.value,
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(
+                    15.0,
                   ),
-                )),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
