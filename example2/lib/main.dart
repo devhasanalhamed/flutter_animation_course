@@ -21,12 +21,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
-enum CircleSize {
+enum CircleSide {
   left,
   right,
 }
 
-extension ToPath on CircleSize {
+extension ToPath on CircleSide {
   Path toPath(Size size) {
     final path = Path();
 
@@ -34,17 +34,18 @@ extension ToPath on CircleSize {
     late bool clockWise;
 
     switch (this) {
-      case CircleSize.left:
+      case CircleSide.left:
         path.moveTo(size.width, 0);
         offset = Offset(size.width, size.height);
         clockWise = false;
-      case CircleSize.right:
-        // usually a pencil starts from 0,0 so no need to the doce below
+      case CircleSide.right:
+        // usually a pencil starts from 0,0 so no need to the code below
         path.moveTo(0, 0);
         offset = Offset(0, size.height);
         clockWise = true;
     }
-    // draw an arc function
+    // draw an arc function taking a point for radius which is the center
+    // of rectangle
     path.arcToPoint(
       offset,
       radius: Radius.elliptical(
@@ -54,7 +55,8 @@ extension ToPath on CircleSize {
       clockwise: clockWise,
     );
 
-    // this important function will close the drawing to get a half circle either way it's only the arc
+    // this important function will close the drawing to get a half
+    // circle either way it's only the arc
     path.close();
     return path;
   }
@@ -62,7 +64,7 @@ extension ToPath on CircleSize {
 
 // the job of this class is to bring drawing to life
 class HalfCircleClipper extends CustomClipper<Path> {
-  final CircleSize side;
+  final CircleSide side;
 
   const HalfCircleClipper({
     required this.side,
@@ -94,7 +96,6 @@ extension on VoidCallback {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late AnimationController _counterClockWiseRotationController;
-
   late Animation<double> _counterClockWiseRotationAnimation;
 
   late AnimationController _flipController;
@@ -216,7 +217,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             ..rotateY(_flipAnimation.value),
                           child: ClipPath(
                             clipper:
-                                const HalfCircleClipper(side: CircleSize.left),
+                                const HalfCircleClipper(side: CircleSide.left),
                             child: Container(
                               width: 100,
                               height: 100,
@@ -235,7 +236,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             ..rotateY(_flipAnimation.value),
                           child: ClipPath(
                             clipper:
-                                const HalfCircleClipper(side: CircleSize.right),
+                                const HalfCircleClipper(side: CircleSide.right),
                             child: Container(
                               width: 100,
                               height: 100,
