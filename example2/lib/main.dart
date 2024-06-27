@@ -35,8 +35,12 @@ extension ToPath on CircleSide {
 
     switch (this) {
       case CircleSide.left:
+        // starts the pencil from 1,0
         path.moveTo(size.width, 0);
+        // destination of the drawing will be 1,1
         offset = Offset(size.width, size.height);
+        // this is the direction of the drawing, while the circle side is left
+        // it's clockwise
         clockWise = false;
       case CircleSide.right:
         // usually a pencil starts from 0,0 so no need to the code below
@@ -44,8 +48,8 @@ extension ToPath on CircleSide {
         offset = Offset(0, size.height);
         clockWise = true;
     }
-    // draw an arc function taking a point for radius which is the center
-    // of rectangle
+    // the function bellow will do magic for us, it will draw the arc using
+    // our specified parameters, while the radius will be the center of the rectangle
     path.arcToPoint(
       offset,
       radius: Radius.elliptical(
@@ -220,69 +224,83 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         child: Column(
           children: [
             AnimatedBuilder(
-                animation: _counterClockWiseRotationAnimation,
-                builder: (context, child) => Transform(
-                      alignment: Alignment.center,
-                      transform: Matrix4.identity()
-                        ..rotateZ(_counterClockWiseRotationAnimation.value),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          AnimatedBuilder(
-                            animation: _flipAnimation,
-                            builder: (context, child) => Transform(
-                              alignment: Alignment.centerRight,
-                              transform: Matrix4.identity()
-                                ..rotateY(_flipAnimation.value),
-                              child: ClipPath(
-                                clipper: const HalfCircleClipper(
-                                    side: CircleSide.left),
-                                child: Container(
-                                  width: 100,
-                                  height: 100,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.amber,
-                                  ),
-                                ),
-                              ),
+              animation: _counterClockWiseRotationAnimation,
+              builder: (context, child) => Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.identity()
+                  ..rotateZ(_counterClockWiseRotationAnimation.value),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AnimatedBuilder(
+                      animation: _flipAnimation,
+                      builder: (context, child) => Transform(
+                        alignment: Alignment.centerRight,
+                        transform: Matrix4.identity()
+                          ..rotateY(_flipAnimation.value),
+                        child: ClipPath(
+                          clipper:
+                              const HalfCircleClipper(side: CircleSide.left),
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: const BoxDecoration(
+                              color: Colors.amber,
                             ),
                           ),
-                          AnimatedBuilder(
-                            animation: _flipController,
-                            builder: (context, child) => Transform(
-                              alignment: Alignment.centerLeft,
-                              transform: Matrix4.identity()
-                                ..rotateY(_flipAnimation.value),
-                              child: ClipPath(
-                                clipper: const HalfCircleClipper(
-                                    side: CircleSide.right),
-                                child: Container(
-                                  width: 100,
-                                  height: 100,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.deepPurple,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    )),
-            const SizedBox(height: 32.0),
-            AnimatedBuilder(
-              animation: _cubeResizeController,
-              builder: (context, child) => Container(
-                width: _cubeAnimation.value,
-                height: _cubeAnimation.value,
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(
-                    15.0,
-                  ),
+                    ),
+                    AnimatedBuilder(
+                      animation: _flipController,
+                      builder: (context, child) => Transform(
+                        alignment: Alignment.centerLeft,
+                        transform: Matrix4.identity()
+                          ..rotateY(_flipAnimation.value),
+                        child: ClipPath(
+                          clipper:
+                              const HalfCircleClipper(side: CircleSide.right),
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: const BoxDecoration(
+                              color: Colors.deepPurple,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            )
+            ),
+            const SizedBox(height: 32.0),
+            const Divider(),
+            const SizedBox(height: 32.0),
+            SizedBox(
+              height: 100.0,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AnimatedBuilder(
+                    animation: _cubeResizeController,
+                    builder: (context, child) => Container(
+                      width: _cubeAnimation.value,
+                      height: _cubeAnimation.value,
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(
+                          15.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 32.0),
+            const Divider(),
+            const SizedBox(height: 32.0),
           ],
         ),
       ),
