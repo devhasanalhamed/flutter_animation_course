@@ -40,7 +40,7 @@ extension ToPath on CircleSide {
         // destination of the drawing will be 1,1
         offset = Offset(size.width, size.height);
         // this is the direction of the drawing, while the circle side is left
-        // it's clockwise
+        // it's not clockwise
         clockWise = false;
       case CircleSide.right:
         // usually a pencil starts from 0,0 so no need to the code below
@@ -104,9 +104,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   late AnimationController _flipController;
   late Animation<double> _flipAnimation;
-
-  late AnimationController _cubeResizeController;
-  late Animation<double> _cubeAnimation;
 
   @override
   void initState() {
@@ -184,19 +181,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       },
     );
 
-    _cubeResizeController = AnimationController(
-      vsync: this,
-      duration: const Duration(
-        seconds: 3,
-      ),
-    );
-
-    _cubeAnimation = Tween<double>(
-      begin: 10,
-      end: 100,
-    ).animate(_cubeResizeController);
-
-    _cubeResizeController.repeat(reverse: true);
+    // The code below may start the animation before building view.
+    // _counterClockWiseRotationController.forward();
 
     super.initState();
   }
@@ -210,6 +196,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    /* The code below will ensure that it starts after building by one second
+       - ..reset was added in a previous phase of the program.
+       - this code will run once only.
+       - the repeated animation caused by the function of add status listener.
+    */
     _counterClockWiseRotationController
       ..reset()
       ..forward.delayed(
@@ -272,30 +263,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                   ],
                 ),
-              ),
-            ),
-            const SizedBox(height: 32.0),
-            const Divider(),
-            const SizedBox(height: 32.0),
-            SizedBox(
-              height: 100.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AnimatedBuilder(
-                    animation: _cubeResizeController,
-                    builder: (context, child) => Container(
-                      width: _cubeAnimation.value,
-                      height: _cubeAnimation.value,
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(
-                          15.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
               ),
             ),
             const SizedBox(height: 32.0),
