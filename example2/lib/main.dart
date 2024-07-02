@@ -215,7 +215,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         child: Column(
           children: [
             AnimatedBuilder(
-              animation: _counterClockWiseRotationAnimation,
+              animation: _counterClockWiseRotationController,
               builder: (context, child) => Transform(
                 alignment: Alignment.center,
                 transform: Matrix4.identity()
