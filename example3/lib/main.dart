@@ -85,6 +85,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late AnimationController _flipController;
   late Animation<double> _flipAnimation;
 
+  late AnimationController _loadingAnimationController;
+  late Animation<double> _loadingAnimation;
+
   @override
   void initState() {
     _counterClockwiseRotationController = AnimationController(
@@ -159,6 +162,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       },
     );
 
+    _loadingAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        seconds: 2,
+      ),
+    );
+
+    _loadingAnimation = Tween<double>(
+      begin: 0.0,
+      end: 50.0,
+    ).animate(_loadingAnimationController);
+
+    _loadingAnimationController.repeat(
+      reverse: true,
+    );
+
     super.initState();
   }
 
@@ -225,6 +244,48 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                   ],
                 ),
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            const Divider(),
+            const SizedBox(height: 16.0),
+            SizedBox(
+              height: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  AnimatedBuilder(
+                    animation: _loadingAnimation,
+                    builder: (context, child) => Transform(
+                      transform: Matrix4.identity()
+                        ..rotateX(_loadingAnimation.value),
+                      child: Container(
+                        width: 24.0,
+                        height: 24.0,
+                        decoration: const BoxDecoration(
+                          color: Colors.yellow,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 24.0,
+                    height: 24.0,
+                    decoration: const BoxDecoration(
+                      color: Colors.yellow,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  Container(
+                    width: 24.0,
+                    height: 24.0,
+                    decoration: const BoxDecoration(
+                      color: Colors.yellow,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
