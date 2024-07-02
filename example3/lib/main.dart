@@ -86,7 +86,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late Animation<double> _flipAnimation;
 
   late AnimationController _loadingAnimationController;
-  late Animation<double> _loadingAnimation;
+  late Animation<double> _loadingAnimation1;
+  late Animation<double> _loadingAnimation2;
+  late Animation<double> _loadingAnimation3;
 
   @override
   void initState() {
@@ -165,13 +167,23 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     _loadingAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(
-        seconds: 2,
+        seconds: 1,
       ),
     );
 
-    _loadingAnimation = Tween<double>(
+    _loadingAnimation1 = Tween<double>(
       begin: 0.0,
       end: 50.0,
+    ).animate(_loadingAnimationController);
+
+    _loadingAnimation2 = Tween<double>(
+      begin: 0.0,
+      end: 75.0,
+    ).animate(_loadingAnimationController);
+
+    _loadingAnimation3 = Tween<double>(
+      begin: 0.0,
+      end: 100.0,
     ).animate(_loadingAnimationController);
 
     _loadingAnimationController.repeat(
@@ -255,10 +267,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   AnimatedBuilder(
-                    animation: _loadingAnimation,
+                    animation: _loadingAnimationController,
                     builder: (context, child) => Transform(
-                      transform: Matrix4.identity()
-                        ..rotateX(_loadingAnimation.value),
+                      transform: Transform.translate(
+                        offset: Offset(
+                          0,
+                          _loadingAnimation1.value,
+                        ),
+                      ).transform,
                       child: Container(
                         width: 24.0,
                         height: 24.0,
@@ -269,20 +285,42 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       ),
                     ),
                   ),
-                  Container(
-                    width: 24.0,
-                    height: 24.0,
-                    decoration: const BoxDecoration(
-                      color: Colors.yellow,
-                      shape: BoxShape.circle,
+                  AnimatedBuilder(
+                    animation: _loadingAnimationController,
+                    builder: (context, child) => Transform(
+                      transform: Transform.translate(
+                        offset: Offset(
+                          0,
+                          _loadingAnimation2.value,
+                        ),
+                      ).transform,
+                      child: Container(
+                        width: 24.0,
+                        height: 24.0,
+                        decoration: const BoxDecoration(
+                          color: Colors.yellow,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
                     ),
                   ),
-                  Container(
-                    width: 24.0,
-                    height: 24.0,
-                    decoration: const BoxDecoration(
-                      color: Colors.yellow,
-                      shape: BoxShape.circle,
+                  AnimatedBuilder(
+                    animation: _loadingAnimationController,
+                    builder: (context, child) => Transform(
+                      transform: Transform.translate(
+                        offset: Offset(
+                          0,
+                          _loadingAnimation3.value,
+                        ),
+                      ).transform,
+                      child: Container(
+                        width: 24.0,
+                        height: 24.0,
+                        decoration: const BoxDecoration(
+                          color: Colors.yellow,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
                     ),
                   ),
                 ],
