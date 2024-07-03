@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         child: Column(
           children: [
             const SizedBox(
-              height: 100,
+              height: 200,
               width: double.infinity,
             ),
             AnimatedBuilder(
@@ -113,12 +113,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    // front
-                    Container(
-                      width: widthAndHeight,
-                      height: widthAndHeight,
-                      color: Colors.red,
-                    ),
                     // back
                     Container(
                       width: widthAndHeight,
@@ -129,26 +123,192 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           Vector3(0, 0, -widthAndHeight),
                         ),
                     ),
+                    // left side
+                    Transform(
+                      transform: Matrix4.identity()
+                        ..rotateY(
+                          (pi / 2),
+                        ),
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        width: widthAndHeight,
+                        height: widthAndHeight,
+                        color: Colors.purple,
+                      ),
+                    ),
+                    // right side
+                    Transform(
+                      transform: Matrix4.identity()
+                        ..rotateY(
+                          -(pi / 2),
+                        ),
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        width: widthAndHeight,
+                        height: widthAndHeight,
+                        color: Colors.green,
+                      ),
+                    ),
+                    // front
                     Container(
                       width: widthAndHeight,
                       height: widthAndHeight,
-                      color: Colors.purple,
+                      color: Colors.red,
                     ),
+                    // top side
+                    Transform(
+                      transform: Matrix4.identity()
+                        ..rotateX(
+                          -(pi / 2),
+                        ),
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        width: widthAndHeight,
+                        height: widthAndHeight,
+                        color: Colors.teal,
+                      ),
+                    ),
+                    // bottom side
+                    Transform(
+                      transform: Matrix4.identity()
+                        ..rotateX(
+                          -(pi / 2),
+                        ),
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        width: widthAndHeight,
+                        height: widthAndHeight,
+                        color: Colors.indigo,
+                      ),
+                    ), // bot
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 200,
+              width: double.infinity,
+            ),
+            AnimatedBuilder(
+              animation: Listenable.merge(
+                [
+                  _xController,
+                  _yController,
+                  _zController,
+                ],
+              ),
+              builder: (context, child) => Transform(
+                transform: Matrix4.identity()
+                  ..rotateX(_animation.evaluate(_xController))
+                  ..rotateY(_animation.evaluate(_yController))
+                  ..rotateZ(_animation.evaluate(_zController)),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    // back
                     Container(
                       width: widthAndHeight,
                       height: widthAndHeight,
-                      color: Colors.green,
+                      decoration: BoxDecoration(
+                        color: Colors.amber,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2,
+                        ),
+                      ),
+                      transform: Matrix4.identity()
+                        ..translate(
+                          Vector3(0, 0, -widthAndHeight),
+                        ),
                     ),
+                    // left side
+                    Transform(
+                      transform: Matrix4.identity()
+                        ..rotateY(
+                          (pi / 2),
+                        ),
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        width: widthAndHeight,
+                        height: widthAndHeight,
+                        decoration: BoxDecoration(
+                          color: Colors.amber,
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                    ),
+                    // right side
+                    Transform(
+                      transform: Matrix4.identity()
+                        ..rotateY(
+                          -(pi / 2),
+                        ),
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        width: widthAndHeight,
+                        height: widthAndHeight,
+                        decoration: BoxDecoration(
+                          color: Colors.amber,
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                    ),
+                    // front
                     Container(
                       width: widthAndHeight,
                       height: widthAndHeight,
-                      color: Colors.teal,
+                      decoration: BoxDecoration(
+                        color: Colors.amber,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2,
+                        ),
+                      ),
                     ),
-                    Container(
-                      width: widthAndHeight,
-                      height: widthAndHeight,
-                      color: Colors.white,
+                    // top side
+                    Transform(
+                      transform: Matrix4.identity()
+                        ..rotateX(
+                          -(pi / 2),
+                        ),
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        width: widthAndHeight,
+                        height: widthAndHeight,
+                        decoration: BoxDecoration(
+                          color: Colors.amber,
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 2,
+                          ),
+                        ),
+                      ),
                     ),
+                    // bottom side
+                    Transform(
+                      transform: Matrix4.identity()
+                        ..rotateX(
+                          -(pi / 2),
+                        ),
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        width: widthAndHeight,
+                        height: widthAndHeight,
+                        decoration: BoxDecoration(
+                          color: Colors.amber,
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                    ), // bot
                   ],
                 ),
               ),
