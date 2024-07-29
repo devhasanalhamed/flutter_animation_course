@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         child: Column(
           children: [
             const SizedBox(
-              height: 200,
+              height: 150,
               width: double.infinity,
             ),
             AnimatedBuilder(
