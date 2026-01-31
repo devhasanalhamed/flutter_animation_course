@@ -1,34 +1,16 @@
-import 'dart:math' show pi;
+import 'dart:math';
 import 'package:vector_math/vector_math_64.dart' show Vector3;
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const App());
-}
-
-class App extends StatelessWidget {
-  const App({super.key});
+class ExampleThree extends StatefulWidget {
+  const ExampleThree({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Application',
-      theme: ThemeData(brightness: Brightness.dark),
-      darkTheme: ThemeData.dark(),
-      debugShowCheckedModeBanner: false,
-      home: const HomePage(),
-    );
-  }
+  ExampleThreeState createState() => ExampleThreeState();
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+class ExampleThreeState extends State<ExampleThree>
+    with TickerProviderStateMixin {
   static const double widthAndHeight = 100;
   late AnimationController _xController;
   late AnimationController _yController;
