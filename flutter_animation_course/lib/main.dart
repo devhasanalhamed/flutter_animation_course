@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animation_course/example_one.dart';
-import 'package:flutter_animation_course/example_two.dart';
 import 'package:flutter_animation_course/example_three.dart';
 
 void main() {
