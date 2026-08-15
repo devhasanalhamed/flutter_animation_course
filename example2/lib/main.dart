@@ -201,6 +201,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
        - this code will run once only.
        - the repeated animation caused by the function of add status listener.
     */
+
+    print(_counterClockWiseRotationAnimation.value);
     _counterClockWiseRotationController
       ..reset()
       ..forward.delayed(
