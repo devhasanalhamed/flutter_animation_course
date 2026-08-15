@@ -1,0 +1,68 @@
+# ── Repo-wide ignores for this multi-project Flutter repo ──
+# Each subproject (example1..example4, flutter_animation_course) also carries
+# its own Flutter-template .gitignore. This file is the safety net that covers
+# the repo root and any new project added before its template lands.
+
+# OS / editor
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+*.swp
+*~
+.history/
+.idea/
+*.iml
+*.ipr
+*.iws
+# .vscode/ is intentionally NOT ignored — launch configs are worth sharing.
+
+# Dart / Flutter / Pub
+**/.dart_tool/
+**/.packages
+**/.pub/
+**/.pub-cache/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/build/
+**/doc/api/
+**/coverage/
+**/migrate_working_dir/
+*.class
+*.log
+app.*.symbols
+app.*.map.json
+
+# Android
+**/.gradle/
+**/.cxx/
+**/local.properties
+**/captures/
+**/gradle-wrapper.jar
+**/android/app/debug/
+**/android/app/profile/
+**/android/app/release/
+**/GeneratedPluginRegistrant.java
+
+# iOS / macOS
+**/ios/Flutter/.last_build_id
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/ephemeral/
+**/ios/Runner/GeneratedPluginRegistrant.*
+**/macos/Flutter/ephemeral/
+**/Pods/
+**/.symlinks/
+**/xcuserdata/
+**/.swiftpm/
+
+# Linux / Windows desktop
+**/linux/flutter/ephemeral/
+**/windows/flutter/ephemeral/
+
+# Secrets — never commit signing material
+**/key.properties
+**/*.keystore
+**/*.jks
+*.env
+.env.*

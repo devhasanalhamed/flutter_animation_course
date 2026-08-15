@@ -54,6 +54,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
     _animation = Tween(begin: 0.0, end: pi * 2);
 
+    // Start the controllers once, here — not in build(). build() can run many
+    // times per second, and resetting the controllers there restarts the
+    // rotation on every rebuild.
+    _xController.repeat();
+    _yController.repeat();
+    _zController.repeat();
+
     super.initState();
   }
 
@@ -67,18 +74,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    _xController
-      ..reset()
-      ..repeat();
-
-    _yController
-      ..reset()
-      ..repeat();
-
-    _zController
-      ..reset()
-      ..repeat();
-
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -93,6 +88,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ]),
               builder: (context, child) => Transform(
                 transform: Matrix4.identity()
+                  // Perspective. Without it the rotation is orthographic and
+                  // reads as mirroring rather than depth.
+                  ..setEntry(3, 2, 0.001)
                   ..rotateX(_animation.evaluate(_xController))
                   ..rotateY(_animation.evaluate(_yController))
                   ..rotateZ(_animation.evaluate(_zController)),
@@ -105,7 +103,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       height: widthAndHeight,
                       color: Colors.amber,
                       transform: Matrix4.identity()
-                        ..translate(Vector3(0, 0, -widthAndHeight)),
+                        ..translateByVector3(Vector3(0, 0, -widthAndHeight)),
                     ),
                     // left side
                     Transform(
@@ -145,8 +143,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                     // bottom side
                     Transform(
-                      transform: Matrix4.identity()..rotateX(-(pi / 2)),
-                      alignment: Alignment.topCenter,
+                      transform: Matrix4.identity()..rotateX(pi / 2),
+                      alignment: Alignment.bottomCenter,
                       child: Container(
                         width: widthAndHeight,
                         height: widthAndHeight,
@@ -166,6 +164,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ]),
               builder: (context, child) => Transform(
                 transform: Matrix4.identity()
+                  // Perspective. Without it the rotation is orthographic and
+                  // reads as mirroring rather than depth.
+                  ..setEntry(3, 2, 0.001)
                   ..rotateX(_animation.evaluate(_xController))
                   ..rotateY(_animation.evaluate(_yController))
                   ..rotateZ(_animation.evaluate(_zController)),
@@ -181,7 +182,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         border: Border.all(color: Colors.white, width: 2),
                       ),
                       transform: Matrix4.identity()
-                        ..translate(Vector3(0, 0, -widthAndHeight)),
+                        ..translateByVector3(Vector3(0, 0, -widthAndHeight)),
                     ),
                     // left side
                     Transform(
@@ -233,8 +234,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                     // bottom side
                     Transform(
-                      transform: Matrix4.identity()..rotateX(-(pi / 2)),
-                      alignment: Alignment.topCenter,
+                      transform: Matrix4.identity()..rotateX(pi / 2),
+                      alignment: Alignment.bottomCenter,
                       child: Container(
                         width: widthAndHeight,
                         height: widthAndHeight,
