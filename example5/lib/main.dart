@@ -26,12 +26,12 @@ class HomePage extends StatefulWidget {
 }
 
 const double defaultWidth = 200;
-const double defaultHeight = 200;
+const Curve defaultCurve = Curves.bounceIn;
 
 class _HomePageState extends State<HomePage> {
   var isZoomedIn = false;
   var width = defaultWidth;
-  var height = defaultHeight;
+  var curve = defaultCurve;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> {
               AnimatedContainer(
                 duration: Duration(milliseconds: 370),
                 width: width,
+                curve: curve,
                 child: Image.asset('assets/images/city.jpg'),
               ),
             ],
@@ -55,8 +56,10 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               setState(() {
                 isZoomedIn = !isZoomedIn;
-                width = isZoomedIn ? MediaQuery.of(context).size.width : 400;
-                height = isZoomedIn ? 600 : 200;
+                width = isZoomedIn
+                    ? MediaQuery.of(context).size.width
+                    : defaultWidth;
+                curve = isZoomedIn ? Curves.bounceOut : Curves.decelerate;
               });
             },
             child: Text(isZoomedIn ? 'Zoom Out' : 'Zoom In'),
