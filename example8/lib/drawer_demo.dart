@@ -589,8 +589,8 @@ class _FlingPageState extends State<FlingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Widget page = demoPage('3D Drawer');
-    final Widget drawer = demoDrawer();
+    final Widget page = panelPage();
+    final Widget drawer = bigDrawer();
     return Stack(
       children: [
         Positioned.fill(
