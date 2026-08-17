@@ -139,6 +139,57 @@ Widget panelPage() => Material(
   ),
 );
 
+/// The page for the hero capture: still a Scaffold with an AppBar like the
+/// lesson's, but coloured and labelled so the swing is readable in a GIF.
+Widget heroPage() => Scaffold(
+  backgroundColor: const Color(0xFF3D59A1),
+  appBar: AppBar(
+    backgroundColor: const Color(0xFF2E4480),
+    title: const Text('3D Drawer', style: TextStyle(fontSize: 24)),
+  ),
+  body: const Center(
+    child: Text(
+      'PAGE',
+      style: TextStyle(
+        fontSize: 34,
+        letterSpacing: 4,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+  ),
+);
+
+/// Full-screen drawer with type large enough to survive a GIF downscale.
+Widget bigDrawer() => Material(
+  child: Container(
+    color: const Color(0xFF24283B),
+    padding: const EdgeInsets.only(left: 90, top: 210),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const Text(
+          'DRAWER',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 3,
+            color: Colors.white70,
+          ),
+        ),
+        const SizedBox(height: 26),
+        for (int i = 1; i <= 5; i++)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Text(
+              'Item $i',
+              style: const TextStyle(fontSize: 22, color: Colors.white),
+            ),
+          ),
+      ],
+    ),
+  ),
+);
+
 Widget demoDrawer({double leftPad = 80, double topPad = 100}) => Material(
   child: Container(
     color: const Color(0xFF24283B),
@@ -385,7 +436,7 @@ class _RealPageState extends State<RealPage> {
 
   @override
   Widget build(BuildContext context) =>
-      MyDrawer(drawer: demoDrawer(), child: demoPage('3D Drawer'));
+      MyDrawer(drawer: bigDrawer(), child: heroPage());
 }
 
 // ------------------------------------------------- DEMO=order | DEMO=hinge
@@ -578,7 +629,7 @@ class _FlingPageState extends State<FlingPage> {
               ? 'DrawerController:  |v| >= 365  ->  fling(velocity)'
               : 'example8:  value < 0.5  ->  reverse()';
         });
-        await Future<void>.delayed(const Duration(milliseconds: 1100));
+        await Future<void>.delayed(const Duration(milliseconds: 600));
         // ~140 px in ~48 ms  ->  far over _kMinFlingVelocity (365 px/s),
         // but only ~0.44 of maxDrag, so the threshold test says "closed".
         await Touch.drag(Offset(12, y), Offset(152, y), steps: 6, stepMs: 8);
